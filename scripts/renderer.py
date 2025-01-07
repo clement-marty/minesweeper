@@ -81,14 +81,22 @@ def render_end_text(screen: pygame.Surface, win: bool, font: pygame.font.Font) -
     
     :param bool win: Whether the player won or lost
     '''
+    rect = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
     text = font.render(
         'You won!' if win else 'You lost!',
         1,
-        '#00ff00' if win else '#ff0000'
+        '#00a000' if win else '#a00000',
     )
 
     s_w, s_h = screen.get_size()
     t_w, t_h = text.get_size()
+    pygame.draw.rect(rect, '#ffffffa0', (
+        (s_w - t_w) // 2 - 10,
+        (s_h - t_h) // 2 - 10,
+        t_w + 20,
+        t_h + 20
+    ), border_radius=10)
+    screen.blit(rect, (0, 0))
     screen.blit(text, (
         (s_w - t_w) // 2,
         (s_h - t_h) // 2
