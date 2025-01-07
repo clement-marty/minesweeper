@@ -70,7 +70,7 @@ def game_loop() -> None:
                             grid, neighbours_grid, discovered_grid = GameLogic.create_from_coords(x, y, (GRID_WIDTH, GRID_HEIGHT), MINE_COUNT)
                             first_click = False
 
-                        if GameLogic.discover_cell(grid, neighbours_grid, discovered_grid, x, y)[0]:
+                        elif GameLogic.discover_cell(grid, neighbours_grid, discovered_grid, x, y)[0]:
                             has_lost = True
 
                     elif event.button == 3: # The right mouse button

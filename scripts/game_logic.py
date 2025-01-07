@@ -161,7 +161,7 @@ def create_from_coords(x: int, y: int, grid_size: tuple[int, int], mine_count: i
         - the grid of discovered cells
     '''
     b, n = False, 0
-    while not b and n <= 1:
+    while (not b) and n <= 1:
         grid = create_grid(grid_size, mine_count)
         neighbours_grid = create_neighbours_grid(grid)
         discovered_grid = create_discovered_grid(grid)
