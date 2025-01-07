@@ -12,6 +12,7 @@ def render_grid(screen: pygame.Surface, grid: np.ndarray, neighbours_grid: np.nd
     :param np.ndarray neighbours_grid: The grid of neighbouring mines
     :param np.ndarray discovered_grid: The grid of rendered cells
     :param int cell_size: The size of each cell
+    :param Assets.Textures textures: The textures to use
     '''
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
@@ -41,6 +42,39 @@ def render_grid(screen: pygame.Surface, grid: np.ndarray, neighbours_grid: np.nd
 
                 if discovered_grid[x, y] == 1: # If the cell has been flagged
                     screen.blit(textures.flag, (x*cell_size, y*cell_size))
+
+
+
+def render_entire_grid(screen: pygame.Surface, grid: np.ndarray, neighbours_grid: np.ndarray, cell_size: int, textures: Assets.Textures) -> None:
+    '''Renders the entire grid on the screen
+    
+    :param pygame.Surface screen: The screen to render the grid on
+    :param np.ndarray grid: The grid to render
+    :param np.ndarray neighbours_grid: The grid of neighbouring mines
+    :param int cell_size: The size of each cell
+    :param Assets.Textures textures: The textures to use
+    '''
+    for x in range(grid.shape[0]):
+        for y in range(grid.shape[1]):
+            
+            screen.blit(
+                textures.cell_background,
+                (x*cell_size, y*cell_size)
+            )
+
+            neighbours = neighbours_grid[x, y]
+            if neighbours > 0: # If the cell has neighbouring mines
+                screen.blit(
+                    textures.__dict__[f'number_{neighbours_grid[x, y]}'],
+                    (x*cell_size, y*cell_size)
+                )
+
+            if grid[x, y] == 1: # If the cell is a mine
+                screen.blit(
+                    textures.mine,
+                    (x*cell_size, y*cell_size)
+                )
+
 
 def render_end_text(screen: pygame.Surface, win: bool, font: pygame.font.Font) -> None:
     '''Displays the end of the game message
