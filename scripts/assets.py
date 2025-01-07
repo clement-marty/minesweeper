@@ -85,13 +85,13 @@ class Textures:
         '''Initializes the flag texture'''
         self.flag = pygame.Surface((cell_size, cell_size), pygame.SRCALPHA)
         pygame.draw.rect(self.flag, '#ff0000', (
-            cell_size//2 - cell_size//8, cell_size//8,
-            cell_size//4, cell_size - cell_size//4
+            cell_size//2 - cell_size//16, cell_size//8,
+            cell_size//8, cell_size - cell_size//8
         ))
         pygame.draw.polygon(self.flag, '#ff0000',[
-            (cell_size//2, cell_size//8),
-            (cell_size - cell_size//8, cell_size//4),
-            (cell_size//2, cell_size//2)
+            (cell_size//2 + cell_size//16, cell_size//8),
+            (cell_size - cell_size//8, 5*cell_size//16),
+            (cell_size//2 + cell_size//16, cell_size//2)
         ])
 
     def init_numbers(self, cell_size: int, font: pygame.font.Font) -> None:
