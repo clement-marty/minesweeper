@@ -24,7 +24,7 @@ class Textures:
         self.init_mine(cell_size)
         self.init_flag(cell_size)
         self.init_numbers(cell_size, number_font)
-        
+
 
 
     def init_hidden_cell_background(self, cell_size: int) -> None:
@@ -49,7 +49,37 @@ class Textures:
     def init_mine(self, cell_size: int) -> None:
         '''Initializes the mine texture'''
         self.mine = pygame.Surface((cell_size, cell_size), pygame.SRCALPHA)
-        pygame.draw.circle(self.mine, '#000000', (cell_size//2, cell_size//2), cell_size//2)
+        pygame.draw.circle(self.mine, '#000000', (cell_size//2, cell_size//2), cell_size//3)
+
+        polygons = [
+            (
+                (cell_size//2 - cell_size//16, cell_size//8),
+                (cell_size//2 + cell_size//16, cell_size//8),
+                (cell_size//2 + cell_size//16, cell_size - cell_size//8),
+                (cell_size//2 - cell_size//16, cell_size - cell_size//8)
+            ),
+            (
+                (cell_size//8, cell_size//2 - cell_size//16),
+                (cell_size - cell_size//8, cell_size//2 - cell_size//16),
+                (cell_size - cell_size//8, cell_size//2 + cell_size//16),
+                (cell_size//8, cell_size//2 + cell_size//16)
+            ),
+            (
+                (cell_size//6 + cell_size//16, cell_size//6),
+                (cell_size//6, cell_size//6 + cell_size//16),
+                (cell_size - cell_size//6 - cell_size//16, cell_size - cell_size//6),
+                (cell_size - cell_size//6, cell_size - cell_size//6 - cell_size//16)
+            ),
+            (
+                (cell_size//6, cell_size - cell_size//6 - cell_size//16),
+                (cell_size//6 + cell_size//16, cell_size - cell_size//6),
+                (cell_size - cell_size//6, cell_size//6 + cell_size//16),
+                (cell_size - cell_size//6 - cell_size//16, cell_size//6)
+            )
+        ]
+        for p in polygons:
+            pygame.draw.polygon(self.mine, '#000000', p)
+
 
     def init_flag(self, cell_size: int) -> None:
         '''Initializes the flag texture'''
