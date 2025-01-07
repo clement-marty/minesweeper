@@ -90,7 +90,7 @@ def flag_cell(discovered_grid: np.ndarray, x: int, y: int) -> None:
         discovered_grid[x, y] = 0
 
 
-def discover_cell(grid: np.ndarray, neighbours_grid: np.ndarray, discovered_grid: np.ndarray, x: int, y: int) -> bool:
+def discover_cell(grid: np.ndarray, neighbours_grid: np.ndarray, discovered_grid: np.ndarray, x: int, y: int) -> tuple[bool, int]:
     '''Discovers a cell and returns if the discovered cell is a mine
     If the chosen cell has no neighbouring mines, the function will discover all the neighbouring cells
     
@@ -98,7 +98,9 @@ def discover_cell(grid: np.ndarray, neighbours_grid: np.ndarray, discovered_grid
     :param np.ndarray discovered_grid: The grid of discovered cells
     :param int x: The x-coordinate of the cell
     :param int y: The y-coordinate of the cell
-    :return bool: True if the discovered cell is a mine, False otherwise
+    :return tuple[bool, int]: A tuple containing:
+        - a boolean whose value is True if the discovered cell is a mine, False otherwise
+        - an integer representing the number of mines that were discovered
     '''
     stack = [(x, y)]
     discovered_cells = set()
@@ -118,7 +120,7 @@ def discover_cell(grid: np.ndarray, neighbours_grid: np.ndarray, discovered_grid
                             if (cx+i, cy+j) not in discovered_cells:
                                 stack.append((cx+i, cy+j))
     
-    return grid[x, y] == 1
+    return grid[x, y] == 1, len(discovered_cells)
 
 
 def check_win(grid: np.ndarray, discovered_grid: np.ndarray, mine_count: int) -> bool:
@@ -143,3 +145,25 @@ def check_win(grid: np.ndarray, discovered_grid: np.ndarray, mine_count: int) ->
 
     return flagged_bombs == mine_count or discovered_cells == grid.shape[0] * grid.shape[1] - mine_count
         
+
+
+def create_from_coords(x: int, y: int, grid_size: tuple[int, int], mine_count: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    '''Creates a grid from the position of a cell
+    Making sure that the designed cell does not contain a mine
+
+    :param int x: The x-coordinate of the cell
+    :param int y: The y-coordinate of the cell
+    :param tuple[int, int] grid_size: The size of the grid, using format (width, height)
+    :param int mine_count: The number of mines to place in the grid
+    :return tuple[np.ndarray, np.ndarray, np.ndarray]: A tuple containing:
+        - the grid of the game
+        - the grid of neighbours
+        - the grid of discovered cells
+    '''
+    b, n = False, 0
+    while not b and n <= 1:
+        grid = create_grid(grid_size, mine_count)
+        neighbours_grid = create_neighbours_grid(grid)
+        discovered_grid = create_discovered_grid(grid)
+        b, n = discover_cell(grid, neighbours_grid, discovered_grid, x, y)
+    return grid, neighbours_grid, discovered_grid

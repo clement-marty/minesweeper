@@ -36,7 +36,7 @@ def game_loop() -> None:
     ))
     pygame.display.set_caption('minesweeper')
 
-    grid = GameLogic.create_grid((GRID_WIDTH, GRID_HEIGHT), MINE_COUNT)
+    grid = np.zeros((GRID_WIDTH, GRID_HEIGHT), dtype=int)
     neighbours_grid = GameLogic.create_neighbours_grid(grid)
     discovered_grid = GameLogic.create_discovered_grid(grid)
     number_font = pygame.font.SysFont('Arial', CELL_SIZE, bold=True)
@@ -47,6 +47,7 @@ def game_loop() -> None:
     clock = pygame.time.Clock()
 
     running = True
+    first_click = True
     has_won = False
     has_lost = False
     while running:
@@ -59,12 +60,17 @@ def game_loop() -> None:
             elif event.type == pygame.MOUSEBUTTONDOWN:
 
                 if not has_won and not has_lost: # Check that the game is still running
-
+                    
                     x, y = pygame.mouse.get_pos()
                     x, y = x // CELL_SIZE, y // CELL_SIZE
 
                     if event.button == 1: # The left mouse button
-                        if GameLogic.discover_cell(grid, neighbours_grid, discovered_grid, x, y):
+
+                        if first_click: # If it is the first clock, generate the grid
+                            grid, neighbours_grid, discovered_grid = GameLogic.create_from_coords(x, y, (GRID_WIDTH, GRID_HEIGHT), MINE_COUNT)
+                            first_click = False
+
+                        if GameLogic.discover_cell(grid, neighbours_grid, discovered_grid, x, y)[0]:
                             has_lost = True
 
                     elif event.button == 3: # The right mouse button
