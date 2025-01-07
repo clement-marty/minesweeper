@@ -75,16 +75,19 @@ def game_loop() -> None:
 
                     elif event.button == 3: # The right mouse button
                         GameLogic.flag_cell(discovered_grid, x, y)
-            
-
-        Renderer.render_grid(screen, grid, neighbours_grid, discovered_grid, CELL_SIZE, textures)
 
         # Check for a win
         if GameLogic.check_win(grid, discovered_grid, MINE_COUNT):
             has_won = True
 
-        # If the game has ended
-        if has_won or has_lost:
+
+
+        
+        if not (has_won or has_lost): # If the game is still running
+            Renderer.render_grid(screen, grid, neighbours_grid, discovered_grid, CELL_SIZE, textures)
+
+        else: # If the game has ended
+            Renderer.render_entire_grid(screen, grid, neighbours_grid, CELL_SIZE, textures)
             Renderer.render_end_text(screen, has_won, text_font)
         
         pygame.display.flip()
