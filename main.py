@@ -14,13 +14,14 @@ def init_config() -> None:
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    global GRID_WIDTH, GRID_HEIGHT, MINE_COUNT, CELL_SIZE, GAME_FPS, SFX_VOLUME
+    global GRID_WIDTH, GRID_HEIGHT, MINE_COUNT, CELL_SIZE, GAME_FPS, SFX_VOLUME, MUSIC_VOLUME
     GRID_WIDTH      = config.getint('grid', 'width')
     GRID_HEIGHT     = config.getint('grid', 'height')
     MINE_COUNT      = config.getint('game', 'mine_count')
     CELL_SIZE       = config.getint('renderer', 'cell_size')
     GAME_FPS        = config.getint('renderer', 'frames_per_second')
     SFX_VOLUME      = config.getfloat('audio', 'sound_effects_volume')
+    MUSIC_VOLUME    = config.getfloat('audio', 'music_volume')
 
 
 
@@ -45,6 +46,7 @@ def game_loop() -> None:
     text_font = pygame.font.SysFont('Arial', CELL_SIZE*GRID_WIDTH//10, bold=True)
     textures = Assets.Textures(CELL_SIZE, number_font)
     sound_effects = Assets.SoundEffects(SFX_VOLUME)
+    music = Assets.Music(SFX_VOLUME)
 
 
     clock = pygame.time.Clock()

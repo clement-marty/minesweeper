@@ -126,3 +126,12 @@ class SoundEffects:
         self.bomb_explodes.set_volume(sound_volume)
         self.flag_placed.set_volume(sound_volume)
         self.cell_discovered.set_volume(sound_volume)
+
+
+class Music:
+
+    def __init__(self, sound_volume: float) -> None:
+        '''Initializes the music'''
+        self.music = pygame.mixer.music.load('sounds/background_music.mp3')
+        pygame.mixer.music.set_volume(sound_volume)
+        pygame.mixer.music.play(-1)
