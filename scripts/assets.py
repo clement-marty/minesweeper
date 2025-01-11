@@ -112,3 +112,17 @@ class Textures:
                 (cell_size - t_h) // 2
             ))
             self.__dict__[f'number_{i}'] = s
+
+
+
+class SoundEffects:
+
+    def __init__(self, sound_volume: float) -> None:
+        '''Initializes the sound effects'''
+        self.bomb_explodes = pygame.mixer.Sound('sounds/bomb_explodes.wav')
+        self.flag_placed = pygame.mixer.Sound('sounds/flag_placed.wav')
+        self.cell_discovered = pygame.mixer.Sound('sounds/cell_discovered.wav')
+
+        self.bomb_explodes.set_volume(sound_volume)
+        self.flag_placed.set_volume(sound_volume)
+        self.cell_discovered.set_volume(sound_volume)
