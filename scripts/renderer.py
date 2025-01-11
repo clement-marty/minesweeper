@@ -101,3 +101,42 @@ def render_end_text(screen: pygame.Surface, win: bool, font: pygame.font.Font) -
         (s_w - t_w) // 2,
         (s_h - t_h) // 2
     ))
+
+
+
+class Animation:
+
+    def __init__(self, duration: float, delay: float = .0) -> None:
+        self.duration = duration
+        self.t = -delay
+
+    def is_done(self) -> bool:
+        return self.t >= self.duration
+    
+    def update(self, dt: float):
+        raise NotImplementedError('The update method must be implemented in a subclass')
+    
+
+
+class ExplosionAnimation(Animation):
+
+    def __init__(self, textures: list[pygame.Surface], position: tuple[int, int], duration: float, delay: float = .0) -> None:
+        '''Initializes the explosion animation
+        
+        :param list[pygame.Surface] textures: The textures of the animation
+        :param tuple[int, int] position: The position of the animation
+        :param float duration: The duration of the animation
+        :param float delay: The delay before the animation starts
+        '''
+        super().__init__(duration, delay)
+        self.textures = textures
+
+    def update(self, dt: float) -> tuple[pygame.Surface, tuple[int, int]]:
+        '''Updates the animation
+        
+        :param float dt: The time passed since the last frame
+        :return tuple[pygame.Surface, tuple[int, int]]: The texture to render and the position of its center
+        '''
+        self.t += dt
+        i = int(self.t / self.duration * len(self.textures))
+        return self.textures[min(i, len(self.textures)-1)], (0, 0)
